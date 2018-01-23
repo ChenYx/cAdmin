@@ -22,7 +22,7 @@ class CAdminServiceProvider extends ServiceProvider {
         if (method_exists($this, 'publishes')) {
             $this->publishes([
                 __DIR__ . '/view' => resource_path('/views/cAdmin'),
-                __DIR__ . '/view' => public_path('/assets/cAdmin'),
+                __DIR__ . '/public' => public_path('/assets/cAdmin'),
             ], 'cAdmin-static');
         }
     }
