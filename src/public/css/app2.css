@@ -1,0 +1,9 @@
+
+.content-header>.breadcrumb {
+    float: none;
+    position: static;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.no-margin-bottom { margin-bottom: 0px;}

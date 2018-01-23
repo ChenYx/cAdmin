@@ -1,4 +1,11 @@
 {
     "name": "yxchen/c-admin",
-    "require": {}
+    "require": {
+        "illuminate/support": "5.5.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "CAdmin\\": "src",
+        }
+    }
 }

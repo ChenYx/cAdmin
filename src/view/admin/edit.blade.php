@@ -1,0 +1,171 @@
+@extends('backend.layouts.manage', ['nav_active' => 'admin'])
+
+@section('title')编辑管理员 - @endsection
+
+@section('content')
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <ol class="breadcrumb">
+            <li><a href="javascript:;"><i class="fa fa-key"></i> 管理员</a></li>
+            <li><a href="{{ backend_url_previous(route('backend.admin.index')) }}">管理员列表</a></li>
+            <li class="active">编辑管理员 #{{ $admin->id }}</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">管理员信息
+                            <small><strong class="text-red">【*】</strong>为必填项</small>
+                        </h3>
+                    </div>
+                    <!-- /.box-header -->
+                    @if(!\App\Logic\BackendAuth::can('admin-update'))
+                        <div class="box-body">
+                            {{ \App\Logic\BackendAuth::PERMISSION_DENIED_MSG }}
+                        </div>
+                    @else
+                        <form class="form-horizontal" id="form-base" method="post" action="{{ route('backend.admin.update') }}">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="id" value="{{ $admin->id }}" />
+                            <div class="box-body">
+                                @if (count($errors) > 0)
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                @endif
+                                <div class="form-group">
+                                    <label for="input-email" class="col-sm-2 control-label"><strong class="text-red">*</strong> 登录邮箱</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{ $admin->email }}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-password" class="col-sm-2 control-label"><strong class="text-red">*</strong> 登录密码</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static"><a href="{{ route('backend.admin.editAccount', ['id' => $admin->id]) }}">修改登录密码</a></p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-name" class="col-sm-2 control-label"><strong class="text-red">*</strong> 姓名</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="input-name" name="name" placeholder="用于显示" value="{{ old('name', $admin->name) }}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-status" class="col-sm-2 control-label"><strong class="text-red">*</strong> 状态</label>
+                                    <div class="col-sm-8">
+                                        @inject("adminModel", "App\Model\AdminModel")
+                                        <div class="input-group">
+                                        @foreach($adminModel::getConstStatus() as $key => $val)
+                                            <label class="radio-inline">
+                                                <input type="radio" name="status" value="{{ $key }}" @if($key === $admin->status) checked @endif> {{ $val }}
+                                            </label>
+                                        @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                            <div class="box-footer">
+                                <button type="submit" class="btn btn-info pull-left">
+                                    <i class="fa fa-save"></i> 保存【管理员信息】
+                                </button>
+                            </div>
+                            <!-- /.box-footer -->
+                        </form>
+                    @endif
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col-xs-12 -->
+            <div class="col-xs-12">
+                <div class="box">
+                    <form class="form-horizontal" id="form-role" method="post" action="{{ route('backend.admin.updateRole') }}">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="admin_id" value="{{ $admin->id }}" />
+                        <div class="box-header with-border">
+                            <h3 class="box-title">角色配置</h3>
+                            @if(\App\Logic\BackendAuth::can('admin-role-all'))
+                                <div class="box-tools pull-right">
+                                    <div class="btn-group btn-group-sm">
+                                        <button type="submit" class="btn btn-sm btn-info"><i class="fa fa-save"></i> 保存</button>
+                                        <button type="button" class="btn btn-default js-role-all">全选</button>
+                                        <button type="button" class="btn btn-default js-role-no">全不选</button>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                        @if(!\App\Logic\BackendAuth::can('admin-role-all'))
+                            <div class="box-body">
+                                {{ \App\Logic\BackendAuth::PERMISSION_DENIED_MSG }}
+                            </div>
+                        @else
+                            <div class="box-body no-padding">
+                                <table class="table" id="role-table">
+                                    <tbody><tr>
+                                        <th><input type="checkbox" id="role-input-all"></th>
+                                        <th>角色</th>
+                                        <th>描述</th>
+                                    </tr>
+                                    @foreach($role_all as $role)
+                                        <tr>
+                                            <td><input type="checkbox" class="js-role-item" name="role_ids[]" value="{{ $role->id }}" @if(in_array($role->id, $role_checked)) checked @endif/></td>
+                                            <td>{{ $role->display_name }}</td>
+                                            <td>{{ $role->description }}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="box-footer">
+                                <div class="btn-group btn-group-sm">
+                                    <button type="submit" class="btn btn-sm btn-info"><i class="fa fa-save"></i> 保存【权限配置】</button>
+                                    <button type="button" class="btn btn-default js-role-all">全选</button>
+                                    <button type="button" class="btn btn-default js-role-no">全不选</button>
+                                </div>
+                            </div>
+                        @endif
+                    </form>
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col-xs-12 -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+@endsection
+
+@section('footer')
+    <!-- Laravel Javascript Validation -->
+    <script type="text/javascript" src="{{ cdn_as('vendor/jsvalidation/js/jsvalidation.js', '#my-form')}}"></script>
+    {!! JsValidator::formRequest('App\Http\Requests\UpdateAdminRequest', "#form-base") !!}
+
+    <script>
+        (function(){
+            $("#role-input-all").change(function(){
+                $("input.js-role-item").prop("checked", $(this).prop("checked"));
+            });
+            $("button.js-role-all").click(function(){
+                $("#role-table input:checkbox").prop("checked", true);
+            });
+            $("button.js-role-no").click(function(){
+                $("#role-table input:checkbox").prop("checked", false);
+            });
+        })();
+    </script>
+@endsection
