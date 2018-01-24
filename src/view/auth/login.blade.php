@@ -1,4 +1,4 @@
-@extends('backend.layouts.app')
+@extends('cAdmin.layouts.app')
 
 @section('content')
 <div class="container">
@@ -8,7 +8,7 @@
                 <div class="panel-heading">登录</div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('backend.login') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('cAdmin.login') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">

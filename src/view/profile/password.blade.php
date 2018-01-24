@@ -1,4 +1,4 @@
-@extends('backend.layouts.manage', ['nav_active' => 'admin'])
+@extends('cAdmin.layouts.manage', ['nav_active' => 'admin'])
 
 @section('title')修改密码 - @endsection
 
@@ -23,7 +23,7 @@
                     </div>
                     <!-- /.box-header -->
 
-                    <form class="form-horizontal" id="form-base" method="post" action="{{ route('backend.profile.updatePassword') }}">
+                    <form class="form-horizontal" id="form-base" method="post" action="{{ route('cAdmin.profile.updatePassword') }}">
                         {{ csrf_field() }}
                         <div class="box-body">
                             @if (count($errors) > 0)
@@ -73,7 +73,4 @@
 @endsection
 
 @section('footer')
-    <!-- Laravel Javascript Validation -->
-    <script type="text/javascript" src="{{ cdn_as('vendor/jsvalidation/js/jsvalidation.js', '#my-form')}}"></script>
-    {!! JsValidator::formRequest('App\Http\Requests\UpdateProfilePasswordRequest', "#form-base") !!}
 @endsection

@@ -24,6 +24,9 @@ class CAdminServiceProvider extends ServiceProvider {
                 __DIR__ . '/view' => resource_path('/views/cAdmin'),
                 __DIR__ . '/public' => public_path('/assets/cAdmin'),
             ], 'cAdmin-static');
+            $this->publishes([
+                __DIR__ . '/cAdmin.php' => config_path('/cAdmin.php'),
+            ], 'cAdmin-config');
         }
     }
 

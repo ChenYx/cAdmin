@@ -1,4 +1,4 @@
-@extends('backend.layouts.manage', ['nav_active' => 'permission'])
+@extends('cAdmin.layouts.manage', ['nav_active' => 'permission'])
 
 @section('title')权限 - @endsection
 

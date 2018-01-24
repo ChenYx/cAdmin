@@ -1,4 +1,4 @@
-@extends('backend.layouts.manage', ['nav_active' => 'role'])
+@extends('cAdmin.layouts.manage', ['nav_active' => 'role'])
 
 @section('title')编辑角色 - @endsection
 
@@ -7,7 +7,7 @@
     <section class="content-header">
         <ol class="breadcrumb">
             <li><a href="javascript:;"><i class="fa fa-key"></i> 管理员</a></li>
-            <li><a href="{{ backend_url_previous(route('backend.role.index')) }}">角色列表</a></li>
+            <li><a href="{{ route('cAdmin.role.index') }}">角色列表</a></li>
             <li class="active">编辑角色 #{{ $role->id }}</li>
         </ol>
     </section>
@@ -24,7 +24,7 @@
                         </h3>
                     </div>
                     <!-- /.box-header -->
-                    <form class="form-horizontal" id="form-base" method="post" action="{{ route('backend.role.update') }}">
+                    <form class="form-horizontal" id="form-base" method="post" action="{{ route('cAdmin.role.update') }}">
                         {{ csrf_field() }}
                         <input type="hidden" name="id" value="{{ $role->id }}" />
 
@@ -72,7 +72,7 @@
 
             <div class="col-xs-12">
                 <div class="box">
-                    <form class="form-horizontal" id="form-permission" method="post" action="{{ route('backend.role.updatePermission') }}">
+                    <form class="form-horizontal" id="form-permission" method="post" action="{{ route('cAdmin.role.updatePermission') }}">
                         {{ csrf_field() }}
                         <input type="hidden" name="role_id" value="{{ $role->id }}" />
                         <div class="box-header with-border">
@@ -137,9 +137,6 @@
 @endsection
 
 @section('footer')
-    <!-- Laravel Javascript Validation -->
-    <script type="text/javascript" src="{{ cdn_as('vendor/jsvalidation/js/jsvalidation.js', '#my-form')}}"></script>
-    {!! JsValidator::formRequest('App\Http\Requests\UpdateRoleRequest', '#form-base') !!}
 
     <script>
         (function(){

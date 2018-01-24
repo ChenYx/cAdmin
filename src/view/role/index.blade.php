@@ -1,4 +1,4 @@
-@extends('backend.layouts.manage', ['nav_active' => 'role'])
+@extends('cAdmin.layouts.manage', ['nav_active' => 'role'])
 
 @section('title')角色 - @endsection
 
@@ -23,7 +23,7 @@
 
                 <div class="box">
                     <div class="box-header">
-                        <a href="{{ route('backend.role.create') }}" class="btn btn-xs btn-default">
+                        <a href="{{ route('cAdmin.role.create') }}" class="btn btn-xs btn-default">
                             <i class="fa fa-plus"></i> 新建角色
                         </a>
                         {{--<div class="box-tools">
@@ -55,7 +55,7 @@
                                 <td>{{ $item->description }}</td>
                                 <td>{{ $item->permissions->implode('display_name', '、') }}</td>
                                 <td>
-                                    <a href="{{ route('backend.role.edit', ['id' => $item->id]) }}"><i class="fa fa-edit"></i> 编辑</a>
+                                    <a href="{{ route('cAdmin.role.edit', ['id' => $item->id]) }}"><i class="fa fa-edit"></i> 编辑</a>
                                 </td>
                             </tr>
                             @endforeach

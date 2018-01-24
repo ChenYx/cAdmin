@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ cdn_as('backend/css/app.css') }}" rel="stylesheet">
+    <link href="{{ public_path('assets/cAdmin/css/app.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -43,22 +43,22 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('backend.login') }}">登录</a></li>
+                            <li><a href="{{ route('cAdmin.login') }}">登录</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ \App\Logic\BackendAuth::user()->name }} <span class="caret"></span>
+                                    {{ Auth::guard()->user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        <a href="{{ route('backend.logout') }}"
+                                        <a href="{{ route('cAdmin.logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                             Logout
                                         </a>
 
-                                        <form id="logout-form" action="{{ route('backend.logout') }}" method="POST" style="display: none;">
+                                        <form id="logout-form" action="{{ route('cAdmin.logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
@@ -74,6 +74,6 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ cdn_as('backend/js/app.js') }}"></script>
+    <script src="{{ public_path('assets/cAdmin/js/app.js') }}"></script>
 </body>
 </html>

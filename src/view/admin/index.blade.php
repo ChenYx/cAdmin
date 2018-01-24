@@ -1,4 +1,4 @@
-@extends('backend.layouts.manage', ['nav_active' => 'admin'])
+@extends('cAdmin.layouts.manage', ['nav_active' => 'admin'])
 
 @section('title')管理员 - @endsection
 
@@ -24,15 +24,15 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <a href="{{ route('backend.admin.create') }}" class="btn btn-xs btn-default">
+                        <a href="{{ route('cAdmin.admin.create') }}" class="btn btn-xs btn-default">
                             <i class="fa fa-plus"></i> 新建管理员
                         </a>
                         <div class="box-tools">
-                            <form method="get" action="{{ route('backend.admin.index') }}">
+                            <form method="get" action="{{ route('cAdmin.admin.index') }}">
                             <div class="input-group input-group-sm" style="width: 150px;">
                                 <input type="text" name="key" class="form-control pull-right" placeholder="姓名/邮件" value="{{ isset($filter['key']) ? $filter['key'] : '' }}">
                                 <div class="input-group-btn">
-                                    @if(!empty($filter))<a class="btn btn-default" href="{{ route('backend.admin.index') }}" title="关闭搜索"><i class="fa fa-close"></i></a>@endif
+                                    @if(!empty($filter))<a class="btn btn-default" href="{{ route('cAdmin.admin.index') }}" title="关闭搜索"><i class="fa fa-close"></i></a>@endif
                                     <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                                 </div>
                             </div>
@@ -62,14 +62,14 @@
                                 <td>{{ $item->email }}</td>
                                 <td><small>{{ $item->roles->implode('display_name', '、') }}</small></td>
                                 <td>
-                                    @if(\App\Logic\BackendAuth::can('admin-update'))
-                                    <a href="{{ route('backend.admin.edit', ['id' => $item->id]) }}"><i class="fa fa-edit"></i> 编辑</a>
+                                    @if(Auth::can('admin-update'))
+                                    <a href="{{ route('cAdmin.admin.edit', ['id' => $item->id]) }}"><i class="fa fa-edit"></i> 编辑</a>
                                     @endif
-                                    @if(\App\Logic\BackendAuth::can('admin-role-all'))
-                                    <a href="{{ route('backend.admin.edit', ['id' => $item->id]) }}"><i class="fa fa-eye"></i> 角色配置</a>
+                                    @if(Auth::can('admin-role-all'))
+                                    <a href="{{ route('cAdmin.admin.edit', ['id' => $item->id]) }}"><i class="fa fa-eye"></i> 角色配置</a>
                                     @endif
-                                    @if(\App\Logic\BackendAuth::can('admin-account'))
-                                    <a href="{{ route('backend.admin.editAccount', ['id' => $item->id]) }}"><i class="fa fa-key"></i> 账号密码</a>
+                                    @if(Auth::can('admin-account'))
+                                    <a href="{{ route('cAdmin.admin.editAccount', ['id' => $item->id]) }}"><i class="fa fa-key"></i> 账号密码</a>
                                     @endif
                                 </td>
                             </tr>

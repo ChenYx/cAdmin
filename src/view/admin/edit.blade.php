@@ -1,4 +1,4 @@
-@extends('backend.layouts.manage', ['nav_active' => 'admin'])
+@extends('cAdmin.layouts.manage', ['nav_active' => 'admin'])
 
 @section('title')编辑管理员 - @endsection
 
@@ -7,7 +7,7 @@
     <section class="content-header">
         <ol class="breadcrumb">
             <li><a href="javascript:;"><i class="fa fa-key"></i> 管理员</a></li>
-            <li><a href="{{ backend_url_previous(route('backend.admin.index')) }}">管理员列表</a></li>
+            <li><a href="{{ route('cAdmin.admin.index') }}">管理员列表</a></li>
             <li class="active">编辑管理员 #{{ $admin->id }}</li>
         </ol>
     </section>
@@ -29,12 +29,12 @@
                         </h3>
                     </div>
                     <!-- /.box-header -->
-                    @if(!\App\Logic\BackendAuth::can('admin-update'))
+                    @if(!Auth::can('admin-update'))
                         <div class="box-body">
-                            {{ \App\Logic\BackendAuth::PERMISSION_DENIED_MSG }}
+                            你没有权限操作此数据
                         </div>
                     @else
-                        <form class="form-horizontal" id="form-base" method="post" action="{{ route('backend.admin.update') }}">
+                        <form class="form-horizontal" id="form-base" method="post" action="{{ route('cAdmin.admin.update') }}">
                             {{ csrf_field() }}
                             <input type="hidden" name="id" value="{{ $admin->id }}" />
                             <div class="box-body">
@@ -56,7 +56,7 @@
                                 <div class="form-group">
                                     <label for="input-password" class="col-sm-2 control-label"><strong class="text-red">*</strong> 登录密码</label>
                                     <div class="col-sm-8">
-                                        <p class="form-control-static"><a href="{{ route('backend.admin.editAccount', ['id' => $admin->id]) }}">修改登录密码</a></p>
+                                        <p class="form-control-static"><a href="{{ route('cAdmin.admin.editAccount', ['id' => $admin->id]) }}">修改登录密码</a></p>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -94,12 +94,12 @@
             <!-- /.col-xs-12 -->
             <div class="col-xs-12">
                 <div class="box">
-                    <form class="form-horizontal" id="form-role" method="post" action="{{ route('backend.admin.updateRole') }}">
+                    <form class="form-horizontal" id="form-role" method="post" action="{{ route('cAdmin.admin.updateRole') }}">
                         {{ csrf_field() }}
                         <input type="hidden" name="admin_id" value="{{ $admin->id }}" />
                         <div class="box-header with-border">
                             <h3 class="box-title">角色配置</h3>
-                            @if(\App\Logic\BackendAuth::can('admin-role-all'))
+                            @if(Auth::can('admin-role-all'))
                                 <div class="box-tools pull-right">
                                     <div class="btn-group btn-group-sm">
                                         <button type="submit" class="btn btn-sm btn-info"><i class="fa fa-save"></i> 保存</button>
@@ -109,9 +109,9 @@
                                 </div>
                             @endif
                         </div>
-                        @if(!\App\Logic\BackendAuth::can('admin-role-all'))
+                        @if(!Auth::can('admin-role-all'))
                             <div class="box-body">
-                                {{ \App\Logic\BackendAuth::PERMISSION_DENIED_MSG }}
+                                {{ Auth::PERMISSION_DENIED_MSG }}
                             </div>
                         @else
                             <div class="box-body no-padding">
@@ -151,9 +151,6 @@
 @endsection
 
 @section('footer')
-    <!-- Laravel Javascript Validation -->
-    <script type="text/javascript" src="{{ cdn_as('vendor/jsvalidation/js/jsvalidation.js', '#my-form')}}"></script>
-    {!! JsValidator::formRequest('App\Http\Requests\UpdateAdminRequest', "#form-base") !!}
 
     <script>
         (function(){

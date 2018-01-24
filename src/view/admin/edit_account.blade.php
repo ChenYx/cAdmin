@@ -1,4 +1,4 @@
-@extends('backend.layouts.manage', ['nav_active' => 'admin'])
+@extends('cAdmin.layouts.manage', ['nav_active' => 'admin'])
 
 @section('title')修改账号密码 - @endsection
 
@@ -7,7 +7,7 @@
     <section class="content-header">
         <ol class="breadcrumb">
             <li><a href="javascript:;"><i class="fa fa-key"></i> 管理员</a></li>
-            <li><a href="{{ backend_url_previous(route('backend.admin.index')) }}">管理员列表</a></li>
+            <li><a href="{{ route('cAdmin.admin.index') }}">管理员列表</a></li>
             <li class="active">修改账号密码 #{{ $admin->id }}</li>
         </ol>
     </section>
@@ -23,12 +23,12 @@
                         </h3>
                     </div>
                     <!-- /.box-header -->
-                    @if(!\App\Logic\BackendAuth::can('admin-account'))
+                    @if(!Auth::can('admin-account'))
                         <div class="box-body">
-                            {{ \App\Logic\BackendAuth::PERMISSION_DENIED_MSG }}
+                            {{ Auth::PERMISSION_DENIED_MSG }}
                         </div>
                     @else
-                        <form class="form-horizontal" id="form-base" method="post" action="{{ route('backend.admin.updateAccount') }}">
+                        <form class="form-horizontal" id="form-base" method="post" action="{{ route('cAdmin.admin.updateAccount') }}">
                             {{ csrf_field() }}
                             <input type="hidden" name="id" value="{{ $admin->id }}" />
                             <div class="box-body">
@@ -75,7 +75,5 @@
 @endsection
 
 @section('footer')
-    <!-- Laravel Javascript Validation -->
-    <script type="text/javascript" src="{{ cdn_as('vendor/jsvalidation/js/jsvalidation.js', '#my-form')}}"></script>
-    {!! JsValidator::formRequest('App\Http\Requests\UpdateAdminAccountRequest', "#form-base") !!}
+
 @endsection

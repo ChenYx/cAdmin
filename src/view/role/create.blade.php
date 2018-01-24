@@ -1,4 +1,4 @@
-@extends('backend.layouts.manage', ['nav_active' => 'role'])
+@extends('cAdmin.layouts.manage', ['nav_active' => 'role'])
 
 @section('title')新建角色 - @endsection
 
@@ -7,7 +7,7 @@
     <section class="content-header">
         <ol class="breadcrumb">
             <li><a href="javascript:;"><i class="fa fa-key"></i> 管理员</a></li>
-            <li><a href="{{ backend_url_previous(route('backend.role.index')) }}">角色列表</a></li>
+            <li><a href="{{ route('cAdmin.role.index') }}">角色列表</a></li>
             <li class="active">新建角色</li>
         </ol>
     </section>
@@ -23,7 +23,7 @@
                         </h3>
                     </div>
                     <!-- /.box-header -->
-                    <form class="form-horizontal" id="form-base" method="post" action="{{ route('backend.role.store') }}">
+                    <form class="form-horizontal" id="form-base" method="post" action="{{ route('cAdmin.role.store') }}">
                         {{ csrf_field() }}
                         <div class="box-body">
                             @if (count($errors) > 0)
@@ -85,7 +85,5 @@
 @endsection
 
 @section('footer')
-    <!-- Laravel Javascript Validation -->
-    <script type="text/javascript" src="{{ cdn_as('vendor/jsvalidation/js/jsvalidation.js', '#my-form')}}"></script>
-    {!! JsValidator::formRequest('App\Http\Requests\StoreRoleRequest', "#form-base") !!}
+
 @endsection

@@ -1,4 +1,4 @@
-@extends('backend.layouts.manage', ['nav_active' => 'home'])
+@extends('cAdmin.layouts.manage', ['nav_active' => 'home'])
 
 @section('content')
 <div class="container">
