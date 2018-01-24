@@ -8,5 +8,4 @@
 return [
     'name' => 'test',
     'name_abbr' => 'C',
-
 ];
